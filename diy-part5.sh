@@ -8,5 +8,6 @@
 # sed -i '/sed -i .*root:::0:.*$1\$V4UetPzk\$CYXluq4wUazHjmCDBCqXF/d' package/lean/default-settings/files/zzz-default-settings
 
 
-
+# 调试
+sed -i 's|src-git-full openstick https://github.com/lkiuyu/openstick-feeds.git|src-git-full openstick https://github.com/xuxin1955/openstick-feeds|g' feeds.conf.default
 
