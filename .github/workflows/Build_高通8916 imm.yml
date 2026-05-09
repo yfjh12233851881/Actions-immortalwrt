@@ -267,12 +267,8 @@ jobs:
         mkdir -p $CCACHE_DIR
 
         make -j$(nproc) CC="ccache gcc" CXX="ccache g++" 2>&1 | tee build.log || {
-          make -j4 V=s CC="ccache gcc" CXX="ccache g++"
+          make -j4 V=s CC="ccache gcc" CXX="ccache g++" || exit 1
         }
-
-        if [ $? -ne 0 ]; then
-          exit 1
-        fi
 
         echo "✅ ccache 统计："
         ccache -s
