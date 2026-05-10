@@ -217,7 +217,7 @@ jobs:
       - name: Download packages
         working-directory: ./openwrt
         run: |
-          make download -j$(nproc) V=s
+          make download -j$(nproc)
           find dl -size -1024c -delete
 
       - name: Compile OpenWrt firmware
