@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 
 #include "qca953x.dtsi"
-
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
 
@@ -39,37 +38,37 @@
 		compatible = "gpio-leds";
 
 		led_system: system {
-			label = "wpj531:green:system";
+			label = "green:system";
 			gpios = <&gpio 13 GPIO_ACTIVE_LOW>;
 		};
 
 		wan {
-			label = "wpj531:green:wan";
+			label = "green:wan";
 			gpios = <&gpio 4 GPIO_ACTIVE_LOW>;
 		};
 
 		lan0 {
-			label = "wpj531:green:lan0";
+			label = "green:lan0";
 			gpios = <&gpio 11 GPIO_ACTIVE_LOW>;
 		};
 
 		sig1 {
-			label = "wpj531:red:sig1";
+			label = "red:sig1";
 			gpios = <&gpio 12 GPIO_ACTIVE_LOW>;
 		};
 
 		sig2 {
-			label = "wpj531:yellow:sig2";
+			label = "yellow:sig2";
 			gpios = <&gpio 14 GPIO_ACTIVE_LOW>;
 		};
 
 		sig3 {
-			label = "wpj531:green:sig3";
+			label = "green:sig3";
 			gpios = <&gpio 15 GPIO_ACTIVE_LOW>;
 		};
 
 		sig4 {
-			label = "wpj531:green:sig4";
+			label = "green:sig4";
 			gpios = <&gpio 16 GPIO_ACTIVE_LOW>;
 		};
 	};
@@ -109,46 +108,13 @@
 	};
 };
 
-&mdio0 {
-	status = "okay";
-
-	builtin_switch: switch@1f {
-		compatible = "qca,qca9531-builtin-switch";
-		reg = <0x1f>;
-
-		#address-cells = <1>;
-		#size-cells = <0>;
-
-		wan_port: port@4 {
-			reg = <4>;
-			label = "wan";
-		};
-
-		lan0_port: port@1 {
-			reg = <1>;
-			label = "lan0";
-		};
-
-		lan1_port: port@2 {
-			reg = <2>;
-			label = "lan1";
-		};
-
-		lan2_port: port@3 {
-			reg = <3>;
-			label = "lan2";
-		};
-	};
-};
-
 &eth0 {
 	status = "okay";
-	phy-mode = "rgmii";
-	phy-handle = <&builtin_switch>;
+	phy-handle = <&swphy4>;
 };
 
 &eth1 {
-	status = "disabled";
+	status = "okay";
 };
 
 &wmac {
