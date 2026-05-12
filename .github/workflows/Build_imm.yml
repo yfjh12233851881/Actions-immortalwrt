@@ -1,5 +1,10 @@
 name: Build_imm
 
+on:
+  repository_dispatch:
+  workflow_dispatch:
+
+
 
 env:
   REPO_URL: https://github.com/xuxin1955/immortalwrt
