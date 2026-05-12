@@ -1,4 +1,4 @@
-name: Build_imm_S200_NOR
+name: Build_imm_glinet_gl-s200-nor
 
 on:
   repository_dispatch:
