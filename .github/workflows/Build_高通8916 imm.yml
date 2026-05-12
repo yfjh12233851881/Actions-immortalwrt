@@ -196,30 +196,30 @@ jobs:
         
         echo "::group::📊 查看全量依赖追溯报告"
         echo "=================================================================="
-        echo "格式说明: [自动选中的包] <--- [拉取它的上层包]"
+        echo "格式说明: [自动选中的包] <--- [拉取它的依赖链]"
         echo "=================================================================="
         echo "自动选中包总数: $(wc -l < auto_selected.txt)"
         echo ""
         
         while read -r pkg; do
-          PARENT_CANDIDATES=$(grep -A 100 "config PACKAGE_.*" tmp/.config-package.in | grep -B 100 "select PACKAGE_$pkg" | grep "config PACKAGE_" | sed 's/.*PACKAGE_//' | sort -u)
+          # 找所有 select 了这个包的地方
+          DEPENDENCY_CHAIN=$(grep -r "select PACKAGE_$pkg" tmp/ package/ feeds/ 2>/dev/null | \
+            grep -v "^Binary" | \
+            sed 's/.*select PACKAGE_//' | \
+            sed 's/\s.*//' | \
+            sort -u | \
+            tr '\n' ' ')
           
-          FOUND_BY=""
-          for parent in $PARENT_CANDIDATES; do
-            if grep -x -q "$parent" user_selected.txt; then
-              FOUND_BY="$FOUND_BY $parent"
-            fi
-          done
-          
-          if [ -z "$FOUND_BY" ]; then
-            printf "➕ %-35s <--- [间接依赖/系统底层]\n" "$pkg"
+          if [ -n "$DEPENDENCY_CHAIN" ]; then
+            printf "➕ %-35s <--- [被以下包依赖]: %s\n" "$pkg" "$DEPENDENCY_CHAIN"
           else
-            printf "➕ %-40s <--- [元凶]: %s\n" "$pkg" "$FOUND_BY"
+            printf "➕ %-35s <--- [系统默认/无法追踪]\n" "$pkg"
           fi
         done < auto_selected.txt
         
         echo "=================================================================="
         echo "::endgroup::"
+
 
 
        
