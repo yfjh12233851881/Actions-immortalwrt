@@ -198,6 +198,8 @@ jobs:
         echo "=================================================================="
         echo "格式说明: [自动选中的包] <--- [拉取它的上层包]"
         echo "=================================================================="
+        echo "自动选中包总数: $(wc -l < auto_selected.txt)"
+        echo ""
         
         while read -r pkg; do
           PARENT_CANDIDATES=$(grep -A 100 "config PACKAGE_.*" tmp/.config-package.in | grep -B 100 "select PACKAGE_$pkg" | grep "config PACKAGE_" | sed 's/.*PACKAGE_//' | sort -u)
@@ -218,6 +220,7 @@ jobs:
         
         echo "=================================================================="
         echo "::endgroup::"
+
 
        
     - name: 查看 openwrt 目录
