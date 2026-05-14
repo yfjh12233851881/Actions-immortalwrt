@@ -146,6 +146,9 @@ jobs:
         ./scripts/feeds clean
         rm -rf feeds
         ./scripts/feeds update -a
+        
+        rm -rf feeds/luci/applications/luci-app-travelmate
+
 
         echo "📌 Local packages feed:"
         git -C feeds/packages log -1 --format="%H %ci %s"
