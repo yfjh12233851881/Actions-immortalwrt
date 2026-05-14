@@ -129,10 +129,6 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /mnt/openwrt $GITHUB_WORKSPACE/openwrt
 
-
-    - name:  files
-      run: cp -r files openwrt/files
-
     - name: Load custom DIY_P1_SH
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
@@ -147,11 +143,6 @@ jobs:
         rm -rf feeds
         ./scripts/feeds update -a
         
-        rm -rf feeds/luci/applications/luci-app-travelmate
-        [ ! -d "feeds/luci/applications/luci-app-travelmate" ] && echo "✅ Official luci-app-travelmate deleted" || echo "❌ Official luci-app-travelmate still exists"
-
-
-
         echo "📌 Local packages feed:"
         git -C feeds/packages log -1 --format="%H %ci %s"
 
@@ -174,7 +165,6 @@ jobs:
 
     - name: Load custom DIY_P2_SH
       run: |
-        [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x $DIY_P2_SH
         cd openwrt
